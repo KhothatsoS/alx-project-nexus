@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Heart, ShoppingCart, Eye } from 'lucide-react';
 import { Product } from '@/interfaces/interface';
