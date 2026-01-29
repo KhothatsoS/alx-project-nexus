@@ -1,4 +1,4 @@
-import type { Product, Category, Order, Review } from '@/types';
+import type { Product, Category, Order, Review } from '@/interfaces/interface';
 
 // Mock Product Data - [API: GET /products]
 export const Products: Product[] = [

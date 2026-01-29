@@ -33,27 +33,27 @@ export default function Footer() {
             <h4 className="mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/category/all" className="hover:text-accent transition-colors">
+                <Link href="/category/all" className="hover:text-accent transition-colors">
                   Shop All
                 </Link>
               </li>
               <li>
-                <Link to="/category/sale" className="hover:text-accent transition-colors">
+                <Link href="/category/sale" className="hover:text-accent transition-colors">
                   Sale
                 </Link>
               </li>
               <li>
-                <Link to="/outfit-builder" className="hover:text-accent transition-colors">
+                <Link href="/outfit-builder" className="hover:text-accent transition-colors">
                   Outfit Builder
                 </Link>
               </li>
               <li>
-                <Link to="/virtual-try-on" className="hover:text-accent transition-colors">
+                <Link href="/virtual-try-on" className="hover:text-accent transition-colors">
                   Virtual Try-On
                 </Link>
               </li>
               <li>
-                <Link to="/account" className="hover:text-accent transition-colors">
+                <Link href="/account" className="hover:text-accent transition-colors">
                   My Account
                 </Link>
               </li>

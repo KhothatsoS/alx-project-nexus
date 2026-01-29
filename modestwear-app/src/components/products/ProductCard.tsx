@@ -32,7 +32,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link to={`/product/${product.id}`}>
+    <Link href={`/product/${product.id}`}>
       <Card
         className="group overflow-hidden hover:shadow-lg transition-all duration-300"
         onMouseEnter={() => setIsHovered(true)}

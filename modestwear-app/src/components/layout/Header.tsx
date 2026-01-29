@@ -60,18 +60,18 @@ export default function Header() {
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
-                    to={item.href}
+                    href={item.href}
                     className="text-lg hover:text-accent transition-colors"
                   >
                     {item.name}
                   </Link>
                 ))}
                 <hr className="my-4" />
-                <Link to="/outfit-builder" className="text-lg hover:text-accent transition-colors flex items-center gap-2">
+                <Link href="/outfit-builder" className="text-lg hover:text-accent transition-colors flex items-center gap-2">
                   <Sparkles className="h-5 w-5" />
                   Outfit Builder
                 </Link>
-                <Link to="/virtual-try-on" className="text-lg hover:text-accent transition-colors flex items-center gap-2">
+                <Link href="/virtual-try-on" className="text-lg hover:text-accent transition-colors flex items-center gap-2">
                   <Sparkles className="h-5 w-5" />
                   Virtual Try-On
                 </Link>
@@ -80,7 +80,7 @@ export default function Header() {
           </Sheet>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <h1 className="text-2xl md:text-3xl">ModestWear</h1>
           </Link>
 
@@ -89,7 +89,7 @@ export default function Header() {
             {navigation.map((item) => (
               <Link
                 key={item.name}
-                to={item.href}
+                href={item.href}
                 className="hover:text-accent transition-colors"
               >
                 {item.name}
@@ -131,7 +131,7 @@ export default function Header() {
             )}
 
             {/* Wishlist */}
-            <Link to="/wishlist">
+            <Link href="/wishlist">
               <Button variant="ghost" size="icon" className="relative">
                 <Heart className="h-5 w-5" />
                 {wishlistCount > 0 && (
@@ -143,7 +143,7 @@ export default function Header() {
             </Link>
 
             {/* Cart */}
-            <Link to="/cart">
+            <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
@@ -155,7 +155,7 @@ export default function Header() {
             </Link>
 
             {/* User Account */}
-            <Link to={currentUser ? '/account' : '/login'}>
+            <Link href={currentUser ? '/account' : '/login'}>
               <Button variant="ghost" size="icon">
                 <User className="h-5 w-5" />
               </Button>
@@ -187,11 +187,11 @@ export default function Header() {
       <div className="hidden lg:block border-t border-border">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-center space-x-8 text-sm">
-            <Link to="/outfit-builder" className="hover:text-accent transition-colors flex items-center gap-2">
+            <Link href="/outfit-builder" className="hover:text-accent transition-colors flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               Outfit Builder
             </Link>
-            <Link to="/virtual-try-on" className="hover:text-accent transition-colors flex items-center gap-2">
+            <Link href="/virtual-try-on" className="hover:text-accent transition-colors flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               Virtual Try-On
             </Link>
@@ -200,3 +200,4 @@ export default function Header() {
       </div>
     </header>
   );
+}
