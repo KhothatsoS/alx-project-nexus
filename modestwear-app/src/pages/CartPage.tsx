@@ -1,39 +1,53 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { removeFromCart, updateQuantity, applyPromoCode } from '@/store/slices/cartSlice';
-import { Trash2, Minus, Plus, ShoppingBag } from 'lucide-react';
-import { Button } from '@/components/common/button';
-import { Input } from '@/components/common/input';
-import { Card, CardContent } from '@/components/common/card';
-import { toast } from 'sonner';
-import { promoCodes } from '@/data/data';
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState, AppDispatch } from "@/store/store";
+import { removeFromCart, updateQuantity, applyPromoCode, } from "@/store/slices/cartSlice";
+import { Trash2, Minus, Plus, ShoppingBag } from "lucide-react";
+import { Button } from "@/components/common/button";
+import { Input } from "@/components/common/input";
+import { Card, CardContent } from "@/components/common/card";
+import { toast } from "sonner";
+import { promoCodes } from "@/data/data";
 
-// [API: GET /cart] - Fetch cart
-// [API: PATCH /cart] - Update cart item
-// [API: DELETE /cart/:itemId] - Remove item
-// [API: POST /promo-codes/validate] - Apply promo code
+// [API: GET /cart]
+// [API: PATCH /cart]
+// [API: DELETE /cart/:itemId]
+// [API: POST /promo-codes/validate]
 
 export default function CartPage() {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-  const appliedPromoCode = useSelector((state: RootState) => state.cart.promoCode);
-  const promoDiscount = useSelector((state: RootState) => state.cart.discount);
-  
-  const [promoCode, setPromoCode] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const appliedPromoCode = useSelector(
+    (state: RootState) => state.cart.promoCode
+  );
+  const promoDiscount = useSelector(
+    (state: RootState) => state.cart.discount
+  );
+
+  const [promoCode, setPromoCode] = useState("");
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0
+  );
+
   const shipping = subtotal > 100 ? 0 : 10;
   const tax = subtotal * 0.08;
   const discount = (subtotal * promoDiscount) / 100;
   const total = subtotal + shipping + tax - discount;
 
-  const handleRemoveFromCart = (productId: string, color: string, size: string) => {
+  const handleRemoveFromCart = (
+    productId: string,
+    color: string,
+    size: string
+  ) => {
     dispatch(removeFromCart({ productId, color, size }));
-    toast.success('Item removed from cart');
+    toast.success("Item removed from cart");
   };
 
   const handleUpdateQuantity = (
@@ -46,26 +60,41 @@ export default function CartPage() {
   };
 
   const handleApplyPromo = () => {
-    // [API: POST /promo-codes/validate]
     const promo = (promoCodes as any)[promoCode.toUpperCase()];
+
     if (promo) {
-      const discountValue = promo.type === 'percentage' ? promo.discount : 0;
-      dispatch(applyPromoCode({ code: promoCode.toUpperCase(), discount: discountValue }));
+      const discountValue =
+        promo.type === "percentage" ? promo.discount : 0;
+
+      dispatch(
+        applyPromoCode({
+          code: promoCode.toUpperCase(),
+          discount: discountValue,
+        })
+      );
+
       toast.success(`Promo code applied! ${discountValue}% off`);
-      setPromoCode('');
+      setPromoCode("");
     } else {
-      toast.error('Invalid promo code');
+      toast.error("Invalid promo code");
     }
   };
 
+  {/* EMPTY CART VIEW */}
   if (cartItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-md mx-auto text-center">
-          <ShoppingBag size={64} className="mx-auto mb-4 text-muted-foreground" />
+          <ShoppingBag
+            size={64}
+            className="mx-auto mb-4 text-muted-foreground"
+          />
           <h2 className="mb-2">Your Cart is Empty</h2>
-          <p className="text-muted-foreground mb-6">Start shopping to add items to your cart</p>
-          <Link to="/category/all">
+          <p className="text-muted-foreground mb-6">
+            Start shopping to add items to your cart
+          </p>
+
+          <Link href="/category/all">
             <Button size="lg">Browse Products</Button>
           </Link>
         </div>
@@ -73,35 +102,45 @@ export default function CartPage() {
     );
   }
 
+  {/* Main View */}
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-8">Shopping Cart</h1>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
+        {/* CART ITEMS */}
         <div className="lg:col-span-2 space-y-4">
           {cartItems.map((item) => (
-            <Card key={`${item.product.id}-${item.color}-${item.size}`}>
+            <Card
+              key={`${item.product.id}-${item.color}-${item.size}`}
+            >
               <CardContent className="p-4">
                 <div className="flex gap-4">
-                  <img
+                  <Image
                     src={item.product.image}
                     alt={item.product.name}
-                    className="w-24 h-32 object-cover rounded-lg"
+                    width={96}
+                    height={128}
+                    className="rounded-lg object-cover"
                   />
+
                   <div className="flex-1">
                     <Link
-                      to={`/product/${item.product.id}`}
+                      href={`/product/${item.product.id}`}
                       className="hover:text-accent"
                     >
                       <h3 className="mb-1">{item.product.name}</h3>
                     </Link>
+
                     <p className="text-sm text-muted-foreground mb-2">
                       {item.color} / {item.size}
                     </p>
-                    <p className="text-accent mb-4">R{item.product.price.toFixed(2)}</p>
 
-                    {/* Quantity Controls */}
+                    <p className="text-accent mb-4">
+                      R{item.product.price.toFixed(2)}
+                    </p>
+
+                    {/* Quantity */}
                     <div className="flex items-center gap-3">
                       <div className="flex items-center border rounded-lg">
                         <Button
@@ -119,7 +158,11 @@ export default function CartPage() {
                         >
                           <Minus size={14} />
                         </Button>
-                        <span className="w-12 text-center text-sm">{item.quantity}</span>
+
+                        <span className="w-12 text-center text-sm">
+                          {item.quantity}
+                        </span>
+
                         <Button
                           variant="ghost"
                           size="icon"
@@ -141,7 +184,11 @@ export default function CartPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() =>
-                          handleRemoveFromCart(item.product.id, item.color, item.size)
+                          handleRemoveFromCart(
+                            item.product.id,
+                            item.color,
+                            item.size
+                          )
                         }
                       >
                         <Trash2 size={16} className="mr-2" />
@@ -152,7 +199,11 @@ export default function CartPage() {
 
                   <div className="text-right">
                     <p className="font-semibold">
-                      R{(item.product.price * item.quantity).toFixed(2)}
+                      R
+                      {(
+                        item.product.price *
+                        item.quantity
+                      ).toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -161,7 +212,7 @@ export default function CartPage() {
           ))}
         </div>
 
-        {/* Order Summary */}
+        {/* SUMMARY */}
         <div className="lg:col-span-1">
           <Card className="sticky top-24">
             <CardContent className="p-6">
@@ -169,20 +220,35 @@ export default function CartPage() {
 
               <div className="space-y-3 mb-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
+                  <span className="text-muted-foreground">
+                    Subtotal
+                  </span>
                   <span>R{subtotal.toFixed(2)}</span>
                 </div>
+
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Shipping</span>
-                  <span>{shipping === 0 ? 'FREE' : `R${shipping.toFixed(2)}`}</span>
+                  <span className="text-muted-foreground">
+                    Shipping
+                  </span>
+                  <span>
+                    {shipping === 0
+                      ? "FREE"
+                      : `R${shipping.toFixed(2)}`}
+                  </span>
                 </div>
+
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Tax (8%)</span>
+                  <span className="text-muted-foreground">
+                    Tax (8%)
+                  </span>
                   <span>R{tax.toFixed(2)}</span>
                 </div>
+
                 {discount > 0 && (
                   <div className="flex justify-between text-sm text-accent">
-                    <span>Discount ({appliedPromoCode})</span>
+                    <span>
+                      Discount ({appliedPromoCode})
+                    </span>
                     <span>-R{discount.toFixed(2)}</span>
                   </div>
                 )}
@@ -191,49 +257,65 @@ export default function CartPage() {
               <div className="border-t pt-4 mb-6">
                 <div className="flex justify-between text-lg">
                   <span>Total</span>
-                  <span className="font-semibold text-accent">R{total.toFixed(2)}</span>
+                  <span className="font-semibold text-accent">
+                    R{total.toFixed(2)}
+                  </span>
                 </div>
               </div>
 
-              {/* Promo Code */}
               {!appliedPromoCode && (
                 <div className="mb-6">
-                  <label className="text-sm mb-2 block">Have a promo code?</label>
+                  <label className="text-sm mb-2 block">
+                    Have a promo code?
+                  </label>
+
                   <div className="flex gap-2">
                     <Input
                       placeholder="Enter code"
                       value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleApplyPromo()}
+                      onChange={(e) =>
+                        setPromoCode(e.target.value)
+                      }
+                      onKeyDown={(e) =>
+                        e.key === "Enter" &&
+                        handleApplyPromo()
+                      }
                     />
-                    <Button variant="outline" onClick={handleApplyPromo}>
+
+                    <Button
+                      variant="outline"
+                      onClick={handleApplyPromo}
+                    >
                       Apply
                     </Button>
                   </div>
+
                   <p className="text-xs text-muted-foreground mt-2">
                     Try: MODEST10, WELCOME20
                   </p>
                 </div>
               )}
 
-              <Link to="/checkout">
+              <Link href="/checkout">
                 <Button className="w-full" size="lg">
                   Proceed to Checkout
                 </Button>
               </Link>
 
               <Link
-                to="/category/all"
+                href="/category/all"
                 className="block text-center text-sm text-accent mt-4 hover:underline"
               >
                 Continue Shopping
               </Link>
 
-              {/* Free Shipping Notice */}
               {subtotal < 100 && (
                 <div className="mt-4 p-3 bg-accent/10 rounded-lg text-sm text-center">
-                  Add <span className="font-semibold">R{(100 - subtotal).toFixed(2)}</span> more to
-                  get free shipping!
+                  Add{" "}
+                  <span className="font-semibold">
+                    R{(100 - subtotal).toFixed(2)}
+                  </span>{" "}
+                  more to get free shipping!
                 </div>
               )}
             </CardContent>

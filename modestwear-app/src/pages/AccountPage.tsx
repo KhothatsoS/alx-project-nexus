@@ -2,34 +2,27 @@
 
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import Image from "next/image";
+import type { RootState, AppDispatch } from "@/store/store";
 import { logout } from "@/store/slices/userSlice";
 import { Orders } from "@/data/data";
 import { Button } from "@/components/common/button";
 import { Card, CardContent } from "@/components/common/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/common/tabs";
 import { Badge } from "@/components/common/badge";
-import {
-  User,
-  Package,
-  Heart,
-  MapPin,
-  CreditCard,
-  Settings,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
+import { User, Package, Heart, MapPin, LogOut, Sparkles, } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
-// [API: GET /user] - Get user profile 
-// // [API: GET /orders] - Get user orders 
-// // [API: GET /addresses] - Get saved addresses 
-// // [API: PATCH /user] - Update profile
+// [API: GET /user] - Get user profile
+// [API: GET /orders] - Get user orders
+// [API: GET /addresses] - Get saved addresses
+// [API: PATCH /user] - Update profile
 
 export default function AccountPage() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
 
@@ -51,7 +44,7 @@ export default function AccountPage() {
   const handleLogout = () => {
     dispatch(logout());
     toast.success("Logged out successfully");
-    router.push("/"); // Navigate to home
+    router.push("/");
   };
 
   const getStatusColor = (status: string) => {
@@ -73,7 +66,9 @@ export default function AccountPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="mb-2">My Account</h1>
-        <p className="text-muted-foreground">Welcome back, {currentUser.name}!</p>
+        <p className="text-muted-foreground">
+          Welcome back, {currentUser.name}!
+        </p>
       </div>
 
       <div className="grid lg:grid-cols-4 gap-8">
@@ -87,7 +82,9 @@ export default function AccountPage() {
                 </div>
                 <div>
                   <h3 className="mb-1">{currentUser.name}</h3>
-                  <p className="text-sm text-muted-foreground">{currentUser.email}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {currentUser.email}
+                  </p>
                 </div>
               </div>
 
@@ -98,13 +95,19 @@ export default function AccountPage() {
                     Outfit Builder
                   </Button>
                 </Link>
+
                 <Link href="/wishlist">
                   <Button variant="ghost" className="w-full justify-start">
                     <Heart className="h-4 w-4 mr-2" />
                     Wishlist ({wishlistItems.length})
                   </Button>
                 </Link>
-                <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
+
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  onClick={handleLogout}
+                >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </Button>
@@ -131,102 +134,47 @@ export default function AccountPage() {
               </TabsTrigger>
             </TabsList>
 
-            {/* Orders Tab */}
+            {/* Orders */}
             <TabsContent value="orders">
               <div className="space-y-4">
-                {Orders.length > 0 ? (
-                  Orders.map((order) => (
-                    <Card key={order.id}>
-                      <CardContent className="p-6">
-                        <div className="flex flex-wrap items-center justify-between mb-4">
-                          <div>
-                            <h3 className="mb-1">Order #{order.id}</h3>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(order.date).toLocaleDateString()} • {order.items.length} items
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <Badge className={getStatusColor(order.status)}>
-                              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                            </Badge>
-                            <p className="text-lg font-semibold text-accent">
-                              R{order.total.toFixed(2)}
-                            </p>
-                          </div>
+                {Orders.map((order) => (
+                  <Card key={order.id}>
+                    <CardContent className="p-6">
+                      <div className="flex justify-between mb-4">
+                        <div>
+                          <h3>Order #{order.id}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date(order.date).toLocaleDateString()} •{" "}
+                            {order.items.length} items
+                          </p>
                         </div>
 
-                        <div className="flex gap-3 flex-wrap">
-                          {order.items.map((item, index) => (
-                            <img
-                              key={index}
-                              src={item.productImage}
-                              alt={item.productName}
-                              className="w-16 h-16 object-cover rounded"
-                            />
-                          ))}
+                        <div className="flex items-center gap-4">
+                          <Badge className={getStatusColor(order.status)}>
+                            {order.status}
+                          </Badge>
+                          <p className="text-lg font-semibold text-accent">
+                            R{order.total.toFixed(2)}
+                          </p>
                         </div>
+                      </div>
 
-                        <div className="mt-4 flex gap-2">
-                          <Button variant="outline" size="sm">
-                            View Details
-                          </Button>
-                          {order.status === "delivered" && (
-                            <Button variant="outline" size="sm">
-                              Buy Again
-                            </Button>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  <Card>
-                    <CardContent className="p-12 text-center">
-                      <Package className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                      <p className="text-muted-foreground mb-4">No orders yet</p>
-                      <Link href="/category/all">
-                        <Button>Start Shopping</Button>
-                      </Link>
+                      <div className="flex gap-3 flex-wrap">
+                        {order.items.map((item, index) => (
+                          <Image
+                            key={index}
+                            src={item.productImage}
+                            alt={item.productName}
+                            width={64}
+                            height={64}
+                            className="rounded object-cover"
+                          />
+                        ))}
+                      </div>
                     </CardContent>
                   </Card>
-                )}
+                ))}
               </div>
-            </TabsContent>
-
-            {/* Profile Tab */}
-            <TabsContent value="profile">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="mb-6">Profile Information</h3>
-                  <div className="space-y-4 max-w-md">
-                    <div>
-                      <label className="text-sm text-muted-foreground mb-1 block">Name</label>
-                      <p>{currentUser.name}</p>
-                    </div>
-                    <div>
-                      <label className="text-sm text-muted-foreground mb-1 block">Email</label>
-                      <p>{currentUser.email}</p>
-                    </div>
-                    <Button>Edit Profile</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Addresses Tab */}
-            <TabsContent value="addresses">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3>Saved Addresses</h3>
-                    <Button>Add New Address</Button>
-                  </div>
-                  <div className="text-center py-8 text-muted-foreground">
-                    <MapPin className="mx-auto h-12 w-12 mb-4" />
-                    <p>No saved addresses</p>
-                  </div>
-                </CardContent>
-              </Card>
             </TabsContent>
           </Tabs>
         </div>
