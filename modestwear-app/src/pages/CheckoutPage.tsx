@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { clearCart } from '@/store/slices/cartSlice';
-import { Button } from '@/components/common/button';
-import { Input } from '@/components/common/input';
-import { Label } from '@/components/common/label';
-import { Card, CardContent } from '@/components/common/card';
-import { RadioGroup, RadioGroupItem } from '@/components/common/radio-group';
-import { Checkbox } from '@/components/common/checkbox';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent } from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Lock, CreditCard, Package } from 'lucide-react';
 import { toast } from 'sonner';
 

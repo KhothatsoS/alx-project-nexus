@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles, TrendingUp, Shield, Truck } from 'lucide-react';
 import { Products, categories } from '@/data/data';
 import ProductCard from '@/components/products/ProductCard';
-import { Button } from '@/components/common/button';
-import { Card, CardContent } from '@/components/common/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function HomePage() {
   const featuredProducts = Products.filter((p) => p.featured);

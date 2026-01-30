@@ -4,12 +4,12 @@ import { useState, useMemo } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Products, categories, filters } from "@/data/data";
 import ProductCard from "@/components/products/ProductCard";
-import { Button } from "@/components/common/button";
-import { Checkbox } from "@/components/common/checkbox";
-import { Label } from "@/components/common/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/common/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/common/sheet";
-import { Slider } from "@/components/common/slider";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
+import { Slider } from "@/components/ui/slider";
 import { SlidersHorizontal } from "lucide-react";
 
 export default function CategoryPage() {

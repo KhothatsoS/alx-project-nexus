@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@components/commons/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/commons/tabs';
-import { Button } from '@/components/common/button';
-import { Input } from '@/components/common/input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/commons/label';
 import { Products, Orders } from '@/data/data';
 import {

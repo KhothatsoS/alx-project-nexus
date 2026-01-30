@@ -3,7 +3,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Heart } from "lucide-react";
-import { Button } from "@/components/common/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ProductCard from "@/components/products/ProductCard";
 

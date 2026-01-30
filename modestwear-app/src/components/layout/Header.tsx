@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Search, ShoppingCart, Heart, User, Menu, X, Sparkles } from 'lucide-react';
-import { Button } from '@/components/common/button';
-import { Input } from '@/components/common/input';
-import { Badge } from '@/components/common/badge';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/common/sheet';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -24,7 +24,7 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      route(`/category/all?search=${searchQuery}`);
+      route.push(`/category/all?search=${searchQuery}`);
       setIsSearchOpen(false);
       setSearchQuery('');
     }

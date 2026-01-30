@@ -5,9 +5,9 @@ import { Heart, ShoppingCart, Eye } from 'lucide-react';
 import { Product } from '@/interfaces/interface';
 import { addToWishlist, removeFromWishlist } from '@/store/slices/wishlistSlice';
 import { RootState } from '@/store/store';
-import { Button } from '@/components/common/button';
-import { Badge } from '@/components/common/badge';
-import { Card, CardContent } from '@/components/common/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
 
 interface ProductCardProps {

@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Toaster } from "@/components/common/sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 import "@/styles/globals.css";
 

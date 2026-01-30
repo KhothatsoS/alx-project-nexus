@@ -279,7 +279,7 @@ modestwear/
 │   │   │   ├     |── Footer.tsx
 │   │   │   ├── products/
             |        |── ProductCard.tsx
-│   │   │   └── common/        # Shadcn UI components
+│   │   │   └── ui/            # Shadcn UI components
 │   │   ├── pages/             # Application pages
 │   │   │   ├── HomePage.tsx
 │   │   │   ├── CategoryPage.tsx

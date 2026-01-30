@@ -2,12 +2,12 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Products } from "@/data/data";
-import { Button } from "@/components/common/button";
-import { Card, CardContent } from "@/components/common/card";
-import { Slider } from "@/components/common/slider";
-import { Label } from "@/components/common/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/common/tabs";
-import { ScrollArea } from "@/components/common/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sparkles,
   Upload,

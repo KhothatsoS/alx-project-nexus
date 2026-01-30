@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "tailwind:init": "tailwindcss init -p",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -44,13 +43,14 @@
     "html2canvas": "^1.4.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.563.0",
-    "next": "16.1.5",
+    "next": "^16.1.5",
     "next-themes": "^0.4.6",
-    "react": "19.2.3",
+    "nmh": "^1.0.0",
+    "react": "^19.2.3",
     "react-day-picker": "^9.13.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
-    "react-dom": "19.2.3",
+    "react-dom": "^19.2.3",
     "react-hook-form": "^7.71.1",
     "react-redux": "^9.2.0",
     "react-resizable-panels": "^4.5.2",
@@ -63,6 +63,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

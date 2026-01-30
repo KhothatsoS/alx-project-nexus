@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store/store";
 import { removeFromCart, updateQuantity, applyPromoCode, } from "@/store/slices/cartSlice";
 import { Trash2, Minus, Plus, ShoppingBag } from "lucide-react";
-import { Button } from "@/components/common/button";
-import { Input } from "@/components/common/input";
-import { Card, CardContent } from "@/components/common/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { promoCodes } from "@/data/data";
 
