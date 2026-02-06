@@ -4,7 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Products, Orders } from '@/data/data';
-import { Package, ShoppingBag, Users, TrendingUp, Eye, Edit, Trash2,} from 'lucide-react';
+import { ResizableBox } from '@/components/ui/resizable';
+import { LineChart, BarChart, DoughnutChart  } from '@/components/ui/chart';
+import { Package, ShoppingBag, Users, TrendingUp, Eye, Edit, Trash2, LucideIcon} from 'lucide-react';
 
 // [API: GET /admin/stats] - Get dashboard statistics
 // [API: GET /admin/products] - Get all products
@@ -57,6 +59,15 @@ export default function AdminDashboard() {
     ],
   };
 
+  type stats = {
+  title: string;
+  value: string;
+  change: string;
+  color: string;
+  icon?: LucideIcon; 
+};
+
+
   const stats = [
   {
     title: 'Total Revenue',
@@ -105,7 +116,7 @@ export default function AdminDashboard() {
             <Card key={stat.title}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <stat.currency className={`h-8 w-8 ${stat.color}`} />
+                  {stat.icon && <stat.icon className={`h-8 w-8 ${stat.color}`} />}
                   <span className={`text-sm ${stat.color}`}>
                     <TrendingUp className="h-4 w-4 inline mr-1" />
                     {stat.change}
@@ -246,9 +257,7 @@ export default function AdminDashboard() {
                 >
                   <Card className="h-full">
                     <CardContent className="p-6 h-full">
-                      <ChartContainer config={{}} className="h-full">
-                        <LineChart data={revenueChartData} />
-                      </ChartContainer>
+                      <LineChart data={revenueChartData} />
                     </CardContent>
                   </Card>
                 </ResizableBox>
@@ -278,9 +287,7 @@ export default function AdminDashboard() {
                   >
                     <Card className="h-full">
                       <CardContent className="p-6 h-full">
-                        <ChartContainer config={{}} className="h-full">
                           <BarChart data={ordersChartData} />
-                        </ChartContainer>
                       </CardContent>
                     </Card>
                   </ResizableBox>
@@ -308,9 +315,7 @@ export default function AdminDashboard() {
                   >
                     <Card className="h-full">
                       <CardContent className="p-6 h-full">
-                        <ChartContainer config={{}} className="h-full">
                           <DoughnutChart data={categoryChartData} />
-                        </ChartContainer>
                       </CardContent>
                     </Card>
                   </ResizableBox>

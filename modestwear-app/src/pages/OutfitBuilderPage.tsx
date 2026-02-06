@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/app/components/ui/resizable';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 import { Sparkles, Trash2, Save, FolderOpen, Download, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -38,9 +38,12 @@ function DraggableProduct({ product }: DraggableProductProps) {
 
   return (
     <div
-      ref={drag}
-      className={`cursor-move ${isDragging ? 'opacity-50' : ''}`}
+    ref={(node) => {
+    if (node) drag(node);
+    }}
+    className={`cursor-move ${isDragging ? "opacity-50" : ""}`}
     >
+
       <Card className="overflow-hidden hover:shadow-md transition-shadow">
         <div className="aspect-square overflow-hidden bg-muted">
           <img
@@ -74,8 +77,10 @@ function OutfitItem({ item, onRemove }: OutfitItemProps) {
 
   return (
     <div
-      ref={drag}
-      className={`absolute cursor-move ${isDragging ? 'opacity-50' : ''}`}
+     ref={(node) => {
+     if (node) drag(node);
+      }}
+      className={`cursor-move ${isDragging ? "opacity-50" : ""}`}
       style={{
         left: `${item.position.x}%`,
         top: `${item.position.y}%`,
@@ -142,6 +147,8 @@ export default function OutfitBuilderPage() {
       isOver: monitor.isOver(),
     }),
   });
+
+  const canvasRef = useRef<HTMLDivElement | null>(null);
 
   const handleSaveOutfit = () => {
     if (!outfitName.trim()) {
@@ -558,7 +565,6 @@ export default function OutfitBuilderPage() {
             </div>
           </div>
         </div>
-      </div>
     </DndProvider>
   );
 }

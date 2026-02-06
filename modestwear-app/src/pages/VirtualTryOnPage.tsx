@@ -8,7 +8,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ResizableBox } from '@/app/components/ui/resizable';
+import { ResizableBox } from '@/components/ui/resizable';
 import { Sparkles, Upload, Download, RefreshCcw, } from "lucide-react";
 import { toast } from "sonner";
 import html2canvas from "html2canvas";
@@ -339,7 +339,6 @@ export default function VirtualTryOnPage() {
                       )}
                     </ResizableBox>
                   </div>
-                </div>
 
                 {/* Adjustment Controls */}
                 {uploadedImage && selectedProduct && (

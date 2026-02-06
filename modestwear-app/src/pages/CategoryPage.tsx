@@ -26,7 +26,9 @@ export default function CategoryPage() {
   const [priceRange, setPriceRange] = useState<number[]>([0, 500]);
   const [sortBy, setSortBy] = useState("featured");
 
-  const category = categories.find((c) => c.id === categoryId);
+  const category = categoryId
+  ? categories.find((c) => c.id === categoryId)
+  : null;
 
   // FILTER + SORTING LOGIC
   const filteredProducts = useMemo(() => {

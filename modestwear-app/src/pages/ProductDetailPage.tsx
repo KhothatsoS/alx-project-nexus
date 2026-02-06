@@ -22,7 +22,10 @@ export default function ProductDetailPage() {
   const dispatch = useDispatch();
 
   const product = Products.find((p) => p.id === productId);
-  const reviews = Reviews[productId || ''] || [];
+  const reviews =
+  typeof productId === "string"
+    ? Reviews[productId] || []
+    : [];
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const isInWishlist = wishlistItems.some((item) => item.id === productId);
 
@@ -99,7 +102,7 @@ export default function ProductDetailPage() {
         <Button
           variant="ghost"
           className="mb-6"
-          onClick={() => router.back(-1)}
+          onClick={() => router.back()}
         >
           <ChevronLeft className="h-4 w-4 mr-2" />
           Back
