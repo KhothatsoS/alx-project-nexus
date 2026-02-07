@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lock, Mail } from 'lucide-react';
 import { toast } from 'sonner';
-
+import { login } from '@/services/auth';
 // [API: POST /auth/login] - User login
 
 export default function Login() {
@@ -26,11 +26,20 @@ export default function Login() {
     setIsLoading(true);
 
     // [API: POST /auth/login]
+    try {
+      const response = await login(email, password);
+      console.log('Login response:', response);
+    } catch (error) {
+      toast.error('Login failed');
+      setIsLoading(false);
+      return;
+    }
+
     // Simulate API call
     setTimeout(() => {
       const User = {
         id: '1',
-        name: 'Sarah Ahmed',
+        name: 'Kayla Smith',
         email: email,
       };
       dispatch(setUser(User));

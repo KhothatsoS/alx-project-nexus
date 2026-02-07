@@ -281,17 +281,17 @@ modestwear/
             |        |── ProductCard.tsx
 │   │   │   └── ui/            # Shadcn UI components
 │   │   ├── pages/             # Application pages
-│   │   │   ├── HomePage.tsx
-│   │   │   ├── CategoryPage.tsx
-│   │   │   ├── ProductDetailPage.tsx
-│   │   │   ├── CartPage.tsx
-│   │   │   ├── CheckoutPage.tsx
-│   │   │   ├── WishlistPage.tsx
-│   │   │   ├── AccountPage.tsx
-│   │   │   ├── LoginPage.tsx
-│   │   │   ├── RegisterPage.tsx
-│   │   │   ├── OutfitBuilderPage.tsx
-│   │   │   ├── VirtualTryOnPage.tsx
+│   │   │   ├── home.tsx
+│   │   │   ├── category.tsx
+│   │   │   ├── product-detail.tsx
+│   │   │   ├── cart.tsx
+│   │   │   ├── checkout.tsx
+│   │   │   ├── wishlist.tsx
+│   │   │   ├── account.tsx
+│   │   │   ├── login.tsx
+│   │   │   ├── register.tsx
+│   │   │   ├── outfit-builder.tsx #Archived due to build errors
+│   │   │   ├── virtual-try-on.tsx
 │   │   │   └── admin/
 │   │   │       └── AdminDashboard.tsx
 │   │   └── App.tsx            # Main app with routing
