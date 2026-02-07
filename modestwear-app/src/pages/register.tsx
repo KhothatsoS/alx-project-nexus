@@ -12,8 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { User, Mail, Lock } from 'lucide-react';
 import { toast } from 'sonner';
-
-// [API: POST /auth/register] - User registration
+import { authAPI } from '@/services/api';
 
 export default function Register() {
   const router = useRouter();
@@ -42,19 +41,21 @@ export default function Register() {
 
     setIsLoading(true);
 
-    // [API: POST /auth/register]
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await authAPI.register(formData.email, formData.password, formData.name);
       const newUser = {
-        id: Date.now().toString(),
+        id: response.user?.id || Date.now().toString(),
         name: formData.name,
         email: formData.email,
       };
       dispatch(setUser(newUser));
       toast.success('Account created successfully!');
-      setIsLoading(false);
       router.push('/account');
-    }, 1000);
+    } catch (error: any) {
+      toast.error(error.message || 'Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,8 +174,8 @@ export default function Register() {
           <div className="mt-8 pt-6 border-t">
             <p className="text-xs text-center text-muted-foreground mb-4">Or sign up with</p>
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline">Google</Button>
-              <Button variant="outline">Facebook</Button>
+              <Button type="button" variant="outline" onClick={() => toast.info('Google sign up coming soon')}>Google</Button>
+              <Button type="button" variant="outline" onClick={() => toast.info('Facebook sign up coming soon')}>Facebook</Button>
             </div>
           </div>
         </CardContent>

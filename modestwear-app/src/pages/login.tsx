@@ -11,8 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lock, Mail } from 'lucide-react';
 import { toast } from 'sonner';
-import { login } from '@/services/auth';
-// [API: POST /auth/login] - User login
+import { authAPI } from '@/services/api';
 
 export default function Login() {
   const router = useRouter();
@@ -25,28 +24,22 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-    // [API: POST /auth/login]
     try {
-      const response = await login(email, password);
-      console.log('Login response:', response);
-    } catch (error) {
-      toast.error('Login failed');
-      setIsLoading(false);
-      return;
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      const User = {
-        id: '1',
-        name: 'Kayla Smith',
+      const response = await authAPI.login(email, password);
+      const user = {
+        id: response.user?.id || '1',
+        name: response.user?.username || response.user?.email || 'User',
         email: email,
       };
-      dispatch(setUser(User));
+      dispatch(setUser(user));
+      localStorage.setItem('token', response.access);
       toast.success('Login successful!');
-      setIsLoading(false);
       router.push('/account');
-    }, 1000);
+    } catch (error: any) {
+      toast.error(error.message || 'Login failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -111,8 +104,8 @@ export default function Login() {
           <div className="mt-8 pt-6 border-t">
             <p className="text-xs text-center text-muted-foreground mb-4">Or continue with</p>
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline">Google</Button>
-              <Button variant="outline">Facebook</Button>
+              <Button type="button" variant="outline" onClick={() => toast.info('Google login coming soon')}>Google</Button>
+              <Button type="button" variant="outline" onClick={() => toast.info('Facebook login coming soon')}>Facebook</Button>
             </div>
           </div>
         </CardContent>
