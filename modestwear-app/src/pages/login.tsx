@@ -11,10 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lock, Mail } from 'lucide-react';
 import { toast } from 'sonner';
-import { login } from '@/services/auth';
-
-// [API: POST /auth/login] - User login
-// [API: email || manual login] - Handle both email/password and social logins
+import { authAPI } from '@/services/api';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Login() {
   const router = useRouter();
@@ -27,28 +25,40 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-    // [API: POST /auth/login]
     try {
-      const response = await login(email, password);
-      console.log('Login response:', response);
-    } catch (error) {
-      toast.error('Login failed');
-      setIsLoading(false);
-      return;
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      const User = {
-        id: '1',
-        name: 'Kayla Smith',
+      const response = await authAPI.login(email, password);
+      const user = {
+        id: response.user?.id || '1',
+        name: response.user?.username || response.user?.email || 'User',
         email: email,
       };
-      dispatch(setUser(User));
+      dispatch(setUser(user));
+      localStorage.setItem('token', response.access);
+      localStorage.setItem('refreshToken', response.refresh);
       toast.success('Login successful!');
-      setIsLoading(false);
       router.push('/account');
-    }, 1000);
+    } catch (error: any) {
+      toast.error(error.message || 'Login failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      const response = await authAPI.googleLogin(credentialResponse.credential);
+      const user = {
+        id: response.user?.id || '1',
+        name: response.user?.username || response.user?.email || 'User',
+        email: response.user?.email,
+      };
+      dispatch(setUser(user));
+      localStorage.setItem('token', response.access);
+      toast.success('Google login successful!');
+      router.push('/account');
+    } catch (error: any) {
+      toast.error(error.message || 'Google login failed');
+    }
   };
 
   return (
@@ -112,9 +122,12 @@ export default function Login() {
 
           <div className="mt-8 pt-6 border-t">
             <p className="text-xs text-center text-muted-foreground mb-4">Or continue with</p>
-            <div className="grid grid-cols-2 gap-3">
-              <Button type="button" variant="outline" onClick={() => toast.info('Google login coming soon')}>Google</Button>
-              <Button type="button" variant="outline" onClick={() => toast.info('Facebook login coming soon')}>Facebook</Button>
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => toast.error('Google login failed')}
+                useOneTap
+              />
             </div>
           </div>
         </CardContent>

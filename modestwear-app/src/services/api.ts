@@ -17,18 +17,28 @@ export const authAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify({ email, password })
     });
-    if (!res.ok) throw new Error('Login failed');
-    return res.json();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+    return {
+      access: data.data.tokens.access_token,
+      refresh: data.data.tokens.refresh_token,
+      user: data.data.user
+    };
   },
   
-  register: async (email: string, password: string, username: string) => {
+  register: async (email: string, password: string, full_name: string) => {
     const res = await fetch(`${API_URL}/api/auth/register/`, {
       method: 'POST',
       headers: getAuthHeaders(),
-      body: JSON.stringify({ email, password, username })
+      body: JSON.stringify({ email, password, full_name })
     });
-    if (!res.ok) throw new Error('Registration failed');
-    return res.json();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Registration failed');
+    return {
+      access: data.data.tokens.access_token,
+      refresh: data.data.tokens.refresh_token,
+      user: data.data.user
+    };
   },
   
   googleLogin: async (token: string) => {
@@ -37,8 +47,9 @@ export const authAPI = {
       headers: getAuthHeaders(),
       body: JSON.stringify({ token })
     });
-    if (!res.ok) throw new Error('Google login failed');
-    return res.json();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Google login failed');
+    return data;
   },
   
   getProfile: async (token: string) => {

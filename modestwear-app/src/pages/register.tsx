@@ -12,10 +12,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { User, Mail, Lock } from 'lucide-react';
 import { toast } from 'sonner';
-import { login } from '@/services/auth';
-
-
-// [API: POST /auth/register] - User registration
+import { authAPI } from '@/services/api';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Register() {
   const router = useRouter();
@@ -44,19 +42,40 @@ export default function Register() {
 
     setIsLoading(true);
 
-    // [API: POST /auth/register] #Will add the backend API when it is ready
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await authAPI.register(formData.email, formData.password, formData.name);
       const newUser = {
-        id: Date.now().toString(),
-        name: formData.name,
+        id: response.user?.id || Date.now().toString(),
+        name: response.user?.first_name || formData.name,
         email: formData.email,
       };
       dispatch(setUser(newUser));
+      localStorage.setItem('token', response.access);
+      localStorage.setItem('refreshToken', response.refresh);
       toast.success('Account created successfully!');
-      setIsLoading(false);
       router.push('/account');
-    }, 1000);
+    } catch (error: any) {
+      toast.error(error.message || 'Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      const response = await authAPI.googleLogin(credentialResponse.credential);
+      const user = {
+        id: response.user?.id || '1',
+        name: response.user?.username || response.user?.email || 'User',
+        email: response.user?.email,
+      };
+      dispatch(setUser(user));
+      localStorage.setItem('token', response.access);
+      toast.success('Google sign up successful!');
+      router.push('/account');
+    } catch (error: any) {
+      toast.error(error.message || 'Google sign up failed');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,9 +193,11 @@ export default function Register() {
 
           <div className="mt-8 pt-6 border-t">
             <p className="text-xs text-center text-muted-foreground mb-4">Or sign up with</p>
-            <div className="grid grid-cols-2 gap-3">
-              <Button type="button" variant="outline" onClick={() => toast.info('Google sign up coming soon')}>Google</Button>
-              <Button type="button" variant="outline" onClick={() => toast.info('Facebook sign up coming soon')}>Facebook</Button>
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => toast.error('Google sign up failed')}
+              />
             </div>
           </div>
         </CardContent>
