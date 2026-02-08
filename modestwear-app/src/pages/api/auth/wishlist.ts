@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-let wishlist: any[] = []; // ⚠️ mock storage (resets on refresh)
+let wishlist: any[] = []; // mock storage for wishlist items
 
-export default function handler(
+export default function wishlist(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

@@ -27,7 +27,7 @@ export const authAPI = {
   },
   
   register: async (email: string, password: string, full_name: string) => {
-    const res = await fetch(`${API_URL}/api/auth/register/`, {
+    const res = await fetch(`${API_URL}/api/auth/register`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify({ email, password, full_name })

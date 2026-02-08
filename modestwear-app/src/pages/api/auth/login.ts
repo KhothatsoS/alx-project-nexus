@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
+export default async function Login(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

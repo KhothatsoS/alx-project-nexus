@@ -1,204 +1,160 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { setUser } from '@/store/slices/userSlice';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { User, Mail, Lock } from 'lucide-react';
-import { toast } from 'sonner';
-import { authAPI } from '@/services/api';
-import { GoogleLogin } from '@react-oauth/google';
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/slices/userSlice";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { User, Mail, Lock } from "lucide-react";
+import { toast } from "sonner";
+import { authAPI } from "@/services/api";
+import { GoogleLogin } from "@react-oauth/google";
+import { register } from "@/services/auth";
 
 export default function Register() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false,
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    agree: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  // Manual Sign Up
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
+    if (form.password !== form.confirmPassword) {
+      return toast.error("Passwords do not match");
     }
-
-    if (!formData.agreeToTerms) {
-      toast.error('Please agree to the terms and conditions');
-      return;
+    if (!form.agree) {
+      return toast.error("Please accept the terms");
     }
 
     setIsLoading(true);
 
     try {
-      const response = await authAPI.register(formData.email, formData.password, formData.name);
-      const newUser = {
-        id: response.user?.id || Date.now().toString(),
-        name: response.user?.first_name || formData.name,
-        email: formData.email,
-      };
-      dispatch(setUser(newUser));
-      localStorage.setItem('token', response.access);
-      localStorage.setItem('refreshToken', response.refresh);
-      toast.success('Account created successfully!');
-      router.push('/account');
+      const response = await register(
+        form.name,
+        form.email,
+        form.password
+      );
+
+      dispatch(
+        setUser({
+          id: response.user.id,
+          name: response.user.username,
+          email: response.user.email,
+        })
+      );
+
+      localStorage.setItem("token", response.access);
+      toast.success("Account created!");
+      router.push("/account");
     } catch (error: any) {
-      toast.error(error.message || 'Registration failed');
+      toast.error(error.message || "Registration failed");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Google 
   const handleGoogleSuccess = async (credentialResponse: any) => {
     try {
-      const response = await authAPI.googleLogin(credentialResponse.credential);
-      const user = {
-        id: response.user?.id || '1',
-        name: response.user?.username || response.user?.email || 'User',
-        email: response.user?.email,
-      };
-      dispatch(setUser(user));
-      localStorage.setItem('token', response.access);
-      toast.success('Google sign up successful!');
-      router.push('/account');
-    } catch (error: any) {
-      toast.error(error.message || 'Google sign up failed');
-    }
-  };
+      const response = await authAPI.googleLogin(
+        credentialResponse.credential
+      );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+      dispatch(
+        setUser({
+          id: response.user.id,
+          name: response.user.username || response.user.email,
+          email: response.user.email,
+        })
+      );
+
+      localStorage.setItem("token", response.access);
+      toast.success("Signed up with Google!");
+      router.push("/account");
+    } catch (error: any) {
+      toast.error(error.message || "Google signup failed");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-12">
       <Card className="w-full max-w-md">
         <CardContent className="p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl mb-2">Create Account</h1>
-            <p className="text-muted-foreground">Join ModestWear today</p>
-          </div>
+          <h1 className="text-3xl mb-6 text-center">Create Account</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <Label htmlFor="name">Full Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="name"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your full name"
-                  className="pl-10"
-                />
-              </div>
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <Input
+              placeholder="Full name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
 
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your@email.com"
-                  className="pl-10"
-                />
-              </div>
-            </div>
+            <Input
+              placeholder="Email"
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
 
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Create a password"
-                  className="pl-10"
-                />
-              </div>
-            </div>
+            <Input
+              placeholder="Password"
+              type="password"
+              value={form.password}
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+            />
 
-            <div>
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm your password"
-                  className="pl-10"
-                />
-              </div>
-            </div>
+            <Input
+              placeholder="Confirm password"
+              type="password"
+              value={form.confirmPassword}
+              onChange={(e) =>
+                setForm({ ...form, confirmPassword: e.target.value })
+              }
+            />
 
-            <div className="flex items-start space-x-2">
+            <div className="flex items-center gap-2">
               <Checkbox
-                id="terms"
-                checked={formData.agreeToTerms}
-                onCheckedChange={(checked) =>
-                  setFormData({ ...formData, agreeToTerms: checked as boolean })
+                checked={form.agree}
+                onCheckedChange={(v) =>
+                  setForm({ ...form, agree: v as boolean })
                 }
               />
-              <Label htmlFor="terms" className="text-sm cursor-pointer">
-                I agree to the{' '}
-                <a href="#" className="text-accent hover:underline">
-                  Terms and Conditions
-                </a>{' '}
-                and{' '}
-                <a href="#" className="text-accent hover:underline">
-                  Privacy Policy
-                </a>
-              </Label>
+              <Label>I agree to the terms</Label>
             </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-              {isLoading ? 'Creating account...' : 'Create Account'}
+            <Button className="w-full" disabled={isLoading}>
+              {isLoading ? "Creating account..." : "Sign Up"}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">Already have an account? </span>
-            <Link href="/login" className="text-accent hover:underline">
+            Already have an account?{" "}
+            <Link href="/login" className="text-accent">
               Sign in
             </Link>
           </div>
 
-          <div className="mt-8 pt-6 border-t">
-            <p className="text-xs text-center text-muted-foreground mb-4">Or sign up with</p>
-            <div className="flex justify-center">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={() => toast.error('Google sign up failed')}
-              />
-            </div>
+          <div className="mt-8 pt-6 border-t text-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => toast.error("Google signup failed")}
+            />
           </div>
         </CardContent>
       </Card>

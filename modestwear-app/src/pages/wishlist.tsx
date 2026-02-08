@@ -6,6 +6,7 @@ import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ProductCard from "@/products/[productId]/ProductCard";
+import wishlist from "@/services/wishlist";
 
 // [API: GET /wishlist] - Fetch wishlist
 
