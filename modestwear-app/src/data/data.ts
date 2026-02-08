@@ -204,13 +204,6 @@ export const Products: Product[] = [
   },
 ];
 
-export type Category = {
-  id: string;
-  name: string;
-  count: number;
-  image: string;
-}; 
-
 // Categories - [API: GET /categories]
 export const categories: Category[] = [
   { id: 'all', name: 'All Products', count: Products.length,},

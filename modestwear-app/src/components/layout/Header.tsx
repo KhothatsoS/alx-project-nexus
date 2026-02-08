@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { toast } from 'sonner';
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);

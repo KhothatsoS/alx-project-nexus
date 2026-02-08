@@ -22,12 +22,12 @@ export interface Product {
 }
 
 // Category
-export interface Category {
+export type Category = {
   id: string;
   name: string;
   count: number;
-  image?: string;
-}
+  image: string;
+}; 
 
 // Order
 export interface Order {
