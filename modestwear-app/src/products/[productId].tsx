@@ -14,7 +14,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Heart, ShoppingCart, Truck, RefreshCcw, Shield, Star, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
-import ProductCard from '@/products/[productId]/ProductCard';
+import ProductCard from '@/products/ProductCard';
 
 export default function ProductDetail() {
   const params = useParams();

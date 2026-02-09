@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Sparkles, TrendingUp, Shield, Truck } from 'lucide-react';
 import { Products, categories } from '@/data/data';
-import ProductCard from '@/products/[productId]/ProductCard';
+import ProductCard from '@/products/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 

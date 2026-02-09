@@ -5,7 +5,7 @@ import { RootState } from "@/store/store";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import ProductCard from "@/products/[productId]/ProductCard";
+import ProductCard from "@/products/ProductCard";
 // [API: GET /wishlist] - Fetch wishlist
 
 export default function Wishlist() {
