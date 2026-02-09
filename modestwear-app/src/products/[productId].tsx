@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Products, Reviews } from '@/data/data';
 import { addToCart } from '@/store/slices/cartSlice';
@@ -17,8 +17,7 @@ import { toast } from 'sonner';
 import ProductCard from '@/products/ProductCard';
 
 export default function ProductDetail() {
-  const params = useParams();
-const productId = params?.productId as string | undefined;
+const { productId } = useRouter().query;
   const router = useRouter();
   const dispatch = useDispatch();
 
