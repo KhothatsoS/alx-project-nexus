@@ -75,6 +75,8 @@ const handleAddToCart = () => {
   };
 
   const handleWishlistToggle = () => {
+    if (!product) return;
+    
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
       toast.success('Removed from wishlist');
@@ -83,7 +85,7 @@ const handleAddToCart = () => {
       toast.success('Added to wishlist');
     }
   };
-  
+
   const relatedProducts = Products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);

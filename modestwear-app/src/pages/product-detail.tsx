@@ -65,6 +65,8 @@ const { productId } = useRouter().query;
   };
 
   const handleWishlistToggle = () => {
+    if (!product) return;
+    
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
       toast.success('Removed from wishlist');

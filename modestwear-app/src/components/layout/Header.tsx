@@ -70,7 +70,7 @@ export default function Header() {
                   </Link>
                 ))}
                 <hr className="my-4" />
-                <Link href="/outfit-builder" onClick={() => toast.info('Feature coming soon')}className="text-lg hover:text-accent transition-colors flex items-center gap-2">
+                <Link href="#" onClick={(e) => { e.preventDefault();toast.info('Feature coming soon')}}className="text-lg hover:text-accent transition-colors flex items-center gap-2">
                   <Sparkles className="h-5 w-5" />
                   Outfit Builder
                 </Link>
@@ -190,7 +190,7 @@ export default function Header() {
       <div className="hidden lg:block border-t border-border">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-center space-x-8 text-sm">
-            <Link href="/outfit-builder" className="hover:text-accent transition-colors flex items-center gap-2">
+            <Link href="#" onClick={(e) => { e.preventDefault(); toast.info('Feature coming soon')}} className="hover:text-accent transition-colors flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
               Outfit Builder
             </Link>
