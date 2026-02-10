@@ -93,13 +93,12 @@ export default function Register() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">Full Name (Optional)</Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="name"
                   name="name"
-                  required
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Your full name"
