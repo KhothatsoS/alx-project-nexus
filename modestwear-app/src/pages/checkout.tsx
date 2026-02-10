@@ -57,7 +57,7 @@ export default function Checkout() {
       toast.dismiss(toastId);
       toast.success("Order placed successfully!");
       dispatch(clearCart());
-      router.push('/AccountPage');
+      router.push('/account');
     }, 2000);
   };
 
@@ -70,7 +70,7 @@ export default function Checkout() {
       <div className="container mx-auto px-4 py-16 text-center">
         <Package className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
         <h2 className="mb-4">Your cart is empty</h2>
-        <Button onClick={() => router.push('/CategoryPage/all')}>Continue Shopping</Button>
+        <Button onClick={() => router.push('/category')}>Continue Shopping</Button>
       </div>
     );
   }
@@ -222,7 +222,7 @@ export default function Checkout() {
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">
                       <RadioGroupItem value="cod" id="cod" />
                       <Label htmlFor="cod" className="flex-1 cursor-pointer">
-                        Cash on Delivery
+                        Cash On Delivery
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2 p-4 border rounded-lg">

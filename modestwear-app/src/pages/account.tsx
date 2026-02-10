@@ -44,7 +44,7 @@ export default function Account() {
   const handleLogout = () => {
     dispatch(logout());
     toast.success("Logged out successfully");
-    router.push("/");
+    router.push("/home");
   };
 
   const getStatusColor = (status: string) => {

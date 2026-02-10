@@ -19,31 +19,41 @@ import ProductCard from '@/products/ProductCard';
 export default function ProductDetail() {
   const router = useRouter();
   const { productId } = router.query;
+
   const dispatch = useDispatch();
 
+  if (!productId || typeof productId !== "string") {
+    return null;
+  }
+
   const product = Products.find((p) => p.id === productId);
-  const reviews =
-  typeof productId === "string"
-    ? Reviews[productId] || []
-    : [];
-  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
-  const isInWishlist = product? wishlistItems.some((item) => item.id === product.id): false;
+
+  const reviews = Reviews[productId] || [];
+
+  const wishlistItems = useSelector(
+    (state: RootState) => state.wishlist.items
+  );
+
+  const isInWishlist = wishlistItems.some(
+    (item) => item.id === productId
+  );
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
 
-  if (!product) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <h2 className="text-2xl mb-4">Product not found</h2>
-        <Button onClick={() => router.push('/home')}>Return to Home</Button>
-      </div>
-    );
-  }
 
-  const handleAddToCart = () => {
+  if (!product) {
+  return (
+    <div className="container mx-auto px-4 py-16 text-center">
+      <h2 className="text-2xl mb-4">Product not found</h2>
+      <Button onClick={() => router.push('/')}>Return to Home</Button>
+    </div>
+  );
+}
+
+const handleAddToCart = () => {
     if (!selectedColor) {
       toast.error('Please select a color');
       return;

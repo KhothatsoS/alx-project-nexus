@@ -75,7 +75,7 @@ export default function VirtualTryOn() {
   // Use demo image
   const useDemoImage = () => {
     setUploadedImage(
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?w=800"
+      "https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/120/original/WhatsApp_Image_2026-02-09_at_9.13.52_AM.jpeg?1770625763w=800"
     );
     toast.success("Demo model loaded");
   };

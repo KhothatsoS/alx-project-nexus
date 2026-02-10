@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { ArrowRight, Sparkles, TrendingUp, Shield, Truck } from 'lucide-react';
 import { Products, categories } from '@/data/data';
-import ProductCard from '@/products/[productId]/ProductCard';
+import ProductCard from '@/products/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 export default function Home() {
   const featuredProducts = Products.filter((p) => p.featured);
@@ -165,7 +166,7 @@ export default function Home() {
       <section className="py-16 bg-gradient-to-r from-accent/20 to-accent/5">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Link href="/outfit-builder">
+            <Link href="#" onClick={(e) => { e.preventDefault(); toast.info('Feature coming soon!')}}>
               <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
                 <CardContent className="p-8 flex flex-col justify-center h-full">
                   <Sparkles className="h-12 w-12 text-accent mb-4" />

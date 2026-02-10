@@ -204,24 +204,17 @@ export const Products: Product[] = [
   },
 ];
 
-export type Category = {
-  id: string;
-  name: string;
-  count: number;
-  image: string;
-}; 
-
 // Categories - [API: GET /categories]
 export const categories: Category[] = [
-  { id: 'all', name: 'All Products', count: Products.length,},
+  { id: 'all', name: 'All Products', count: Products.length, image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600' },
   { id: 'dresses', name: 'Dresses', count: Products.filter(p => p.category === 'dresses').length, image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600' },
   { id: 'abayas', name: 'Abayas', count: Products.filter(p => p.category === 'abayas').length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/086/original/WhatsApp_Image_2026-02-08_at_12.36.28.jpeg?1770554646?w=600' },
   { id: 'sets', name: 'Sets', count: Products.filter(p => p.category === 'sets').length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/079/original/WhatsApp_Image_2026-02-08_at_13.18.30.jpeg?1770549566?w=600' },
   { id: 'tops', name: 'Tops', count: Products.filter(p => p.category === 'tops').length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/085/original/WhatsApp_Image_2026-02-08_at_14.39.49.jpeg?1770554424?w=600' },
-  { id: 'bottoms', name: 'Bottoms', count: Products.filter(p => p.category === 'bottoms').length, },
-  { id: 'outerwear', name: 'Outerwear', count: Products.filter(p => p.category === 'outerwear').length,},
-  { id: 'accessories', name: 'Accessories', count: Products.filter(p => p.category === 'accessories').length,},
-  { id: 'sale', name: 'Sale', count: Products.filter(p => p.discount).length,},
+  { id: 'bottoms', name: 'Bottoms', count: Products.filter(p => p.category === 'bottoms').length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/084/original/WhatsApp_Image_2026-02-08_at_14.39.57.jpeg?1770554432?w=600' },
+  { id: 'outerwear', name: 'Outerwear', count: Products.filter(p => p.category === 'outerwear').length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/082/original/WhatsApp_Image_2026-02-08_at_14.40.15.jpeg?1770554463?w=600' },
+  { id: 'accessories', name: 'Accessories', count: Products.filter(p => p.category === 'accessories').length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/083/original/WhatsApp_Image_2026-02-08_at_14.41.39.jpeg?1770554539?w=600' },
+  { id: 'sale', name: 'Sale', count: Products.filter(p => p.discount).length, image: 'https://s3.amazonaws.com/shecodesio-production/uploads/files/000/178/129/original/sale-banner.jpg?1771996956?w=600' },
 ];
 
 // Filters - [API: GET /filters]

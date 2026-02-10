@@ -1,7 +1,6 @@
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
 import { store } from "@/store/store";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
