@@ -96,9 +96,10 @@ export default function Register() {
         <CardContent className="p-8">
           <h1 className="text-3xl mb-6 text-center">Create Account</h1>
 
+<<<<<<< HEAD
           <form onSubmit={handleSubmit} className="space-y-5">
             <Input
-              placeholder="Full name"
+              placeholder="Full name (optional)"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
